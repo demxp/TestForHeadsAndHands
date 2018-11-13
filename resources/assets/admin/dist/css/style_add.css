@@ -1,0 +1,10 @@
+/* Стили строк таблиц для индикации ошибок/успеха */
+tr.tr__green td{
+    background-color: #9cff9c !important;
+    transition: .3s;
+}
+
+tr.tr__red td{
+    background-color: #ff9c9c !important;
+    transition: .3s;
+}

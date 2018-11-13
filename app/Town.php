@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Providers\TownWeatherProvider;
 
 class Town extends Model
 {
@@ -14,7 +15,8 @@ class Town extends Model
     {
         $town = new static;
         $town->fill($fields);
-        $town->current_temp = 0;
+        $request_current_temp = TownWeatherProvider::getWeather($fields["town_id"]);
+        $town->current_temp = $request_current_temp["temp"];
         $town->save();
         return $town;
     }

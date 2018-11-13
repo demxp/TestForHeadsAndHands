@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'api/v1', 'namespace' => 'ApiV1'], function(){
+	Route::resource('/users', 'UsersController');
+});
+
+Route::group(['prefix' => 'adminpanel', 'namespace' => 'Admin'], function(){
+	Route::get('/', 'DashboardController@index'); 
+});
