@@ -173,6 +173,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /* Провайдер для запроса погоды */
+        App\Providers\TownWeatherProvider::class,
+
     ],
 
     /*
