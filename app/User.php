@@ -28,10 +28,14 @@ class User extends Authenticatable
         'password'
     ];
 
+    /* Привязка токена к пользователю */
+
     public function token()
     {
         return $this->hasOne(UserToken::class);
     } 
+
+    /* Функция добавления пользователя с криптованием пароля */
 
     public static function add($fields)
     {
@@ -42,6 +46,8 @@ class User extends Authenticatable
         return $user;
     }
 
+    /* Редактирование пользователя */
+
     public function edit($fields)
     {
         $this->fill($fields);
@@ -51,6 +57,8 @@ class User extends Authenticatable
         $this->save();
 
     }
+
+    /* Удаление пользователя */
 
     public function remove()
     {

@@ -15,14 +15,22 @@ class Api_Token extends Model
         'user_id', 'token', 'expire'
     ];
 
+    /* Отключение полей времени обновления и создания в таблице*/
+
     public $timestamps = false;
 
+    /* Назначение имени таблицы для модели */
+
 	protected $table = 'api_tokens';
+
+    /* Привязка модели пользователя */
 
     public function user()
     {
         return $this->hasOne(User::class);
     } 
+
+    /* Функция обновления токена */
 
     public static function RegenerateToken()
     {
@@ -39,6 +47,8 @@ class Api_Token extends Model
 
         return $random_token;                	
     }
+
+    /* Функция проверки токена с проверкой актуальности */
 
     public static function CheckToken($token)
     {

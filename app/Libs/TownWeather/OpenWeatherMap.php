@@ -6,6 +6,9 @@ use App\Libs\TownWeather\Contracts\TownWeather;
   
 class OpenWeatherMap implements TownWeather
 {
+
+    /* Точка входа - основная функция класса. Принимает массив или число */
+
     public function getWeather($town)
     {
       if(is_array($town)){
@@ -14,16 +17,23 @@ class OpenWeatherMap implements TownWeather
       return $this->requestOneTown($town);
     }
 
+    /* Получение ключа API сервиса - используется файл .env */
+
     public function ApiKey()
     {
     	return env('OPEN_WEATHER_MAP_KEY');
     }
+
+    /* Формирователь API ссылки и запрос погоды в одном городе */
 
     public function requestOneTown(int $town_id)
     {
     	$link = "http://api.openweathermap.org/data/2.5/weather?id=".$town_id."&units=metric&APPID=".$this->ApiKey();
     	return $this->request($link);
     }
+
+    /* Циклический запрос при необходимости получения погоды в нескольких городах */
+    /* Ограничение длины входного массива городов - 20 элементов */
 
     public function requestManyTowns(array $towns)
     {
@@ -44,6 +54,8 @@ class OpenWeatherMap implements TownWeather
 
     	return $acc;
     }
+
+    /* Непосредственный запрос к сервису и парсинг ответа */
 
     public function request($link)
     {

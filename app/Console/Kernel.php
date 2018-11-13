@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        /* Планирование обновления погоды каждые 10 минут */
+
         $schedule->call(function () {
             $towns = Town::all();
             

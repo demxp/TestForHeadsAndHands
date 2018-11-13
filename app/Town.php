@@ -7,12 +7,19 @@ use TownWeather;
 
 class Town extends Model
 {
+
+    /* Отключение первичного ключа - инкрементного поля */
     public $incrementing = false;
+
+    /* Назначение первичного ключа */
+
     protected $primaryKey = 'town_id';
     
     protected $fillable = [
         'town_id', 'name'
     ];
+
+    /* Функция добавления города с запросом температуры */
 
     public static function add($fields)
     {
@@ -24,10 +31,14 @@ class Town extends Model
         return $town;
     }
 
+    /* Функция удаления города */
+
     public function remove()
     {
         $this->delete();
     }       
+
+    /* Функция обновления температуры - для CRON */
 
     public function renewTemp()
     {

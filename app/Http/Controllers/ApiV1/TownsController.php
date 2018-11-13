@@ -13,7 +13,7 @@ class TownsController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Вывод всех городов.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class TownsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * добавлени нового города, валидация и сохранение новой модели.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -51,7 +51,7 @@ class TownsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление города.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -63,6 +63,8 @@ class TownsController extends Controller
             "status" => "ok"
         ];
     }
+
+    /* Вывод температуры во всех городах с проверкой валидности токена, пришедшего в заголовках */
 
     public function GetAllWeather(Request $request)
     {

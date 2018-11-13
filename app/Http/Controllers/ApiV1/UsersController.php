@@ -13,7 +13,7 @@ use App\Api_Token;
 class UsersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Вывод всех зарегистрированных пользователей.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Get user data.
+     * Вывод данных запрошенного пользователя.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -34,7 +34,7 @@ class UsersController extends Controller
     }    
 
     /**
-     * Store a newly created resource in storage.
+     * Сохранение нового пользователя с валидацией.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -62,7 +62,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновление пользователя с валидацией.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -95,7 +95,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление пользователя.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -109,6 +109,7 @@ class UsersController extends Controller
     }
 
     /* Авторизация и генерация токена */
+    
     public function AuthUser(Request $request)
     {
         if(Auth::attempt([
