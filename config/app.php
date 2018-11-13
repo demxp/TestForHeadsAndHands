@@ -225,6 +225,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /* Фасад для запроса погоды */
+
+        'TownWeather' => App\Libs\TownWeather\Facades\TownWeather::class,
+
     ],
 
 ];

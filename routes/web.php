@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api/v1', 'namespace' => 'ApiV1'], function(){
 	Route::resource('/users', 'UsersController');
+	Route::resource('/towns', 'TownsController');	
 });
 
 Route::group(['prefix' => 'adminpanel', 'namespace' => 'Admin'], function(){

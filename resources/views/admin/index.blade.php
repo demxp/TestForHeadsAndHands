@@ -45,6 +45,8 @@
     <section class="content">
       <users-index v-if="checkMode('indexusers')"></users-index>
       <users-edit v-if="checkMode('editusers')" :user-id="id"></users-edit>
+      <towns-index v-if="checkMode('indextowns')"></towns-index>
+      <towns-add v-if="checkMode('addtown')" :user-id="id"></towns-add>      
     </section>
     <!-- /.content -->
   </div>

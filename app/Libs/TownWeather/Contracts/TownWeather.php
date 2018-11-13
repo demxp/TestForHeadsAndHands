@@ -4,5 +4,5 @@ namespace App\Libs\TownWeather\Contracts;
   
 Interface TownWeather
 {
-    public function getWeather();
+    public function getWeather($town);
 }

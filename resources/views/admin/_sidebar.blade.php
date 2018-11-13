@@ -7,4 +7,5 @@
           </a>
         </li>
         <li><a @click="setMode({'mode': 'indexusers', 'id': null})"><i class="fa fa-users"></i> <span>Пользователи</span></a></li>
+        <li><a @click="setMode({'mode': 'indextowns', 'id': null})"><i class="fa fa-users"></i> <span>Города</span></a></li>        
       </ul>

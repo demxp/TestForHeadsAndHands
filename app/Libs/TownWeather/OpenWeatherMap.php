@@ -21,7 +21,7 @@ class OpenWeatherMap implements TownWeather
 
     public function requestOneTown(int $town_id)
     {
-    	$link = "http://api.openweathermap.org/data/2.5/weather?id=".$town_id."&units=metric&APPID=".$this->ApiKey()
+    	$link = "http://api.openweathermap.org/data/2.5/weather?id=".$town_id."&units=metric&APPID=".$this->ApiKey();
     	return $this->request($link);
     }
 
@@ -30,7 +30,7 @@ class OpenWeatherMap implements TownWeather
     	if(count($towns) > 20){
     		return [
     			"status" => "error",
-    			"message" => "Maximum towns per minute is 20";
+    			"message" => "Maximum towns per minute is 20"
     		];
     	}
 
@@ -48,16 +48,16 @@ class OpenWeatherMap implements TownWeather
     public function request($link)
     {
 		$response = json_decode(file_get_contents($link));
-		if($request['cod'] != '200'){
+		if($response->cod != '200'){
     		return [
     			"status" => "error",
-    			"message" => $request['message'];
+    			"message" => $response->message
     		];
 		}
 
 		return [
-			"id" => $request["id"],
-			"temp" => $request["main"]["temp"];
+			"id" => $response->id,
+			"temp" => $response->main->temp
 		];
     }
 

@@ -49,6 +49,8 @@ import swal from 'sweetalert'
 Vue.component('Select2', require('./components/Select2.vue'));
 Vue.component('UsersIndex', require('./components/UsersIndex.vue'));
 Vue.component('UsersEdit', require('./components/UsersEdit.vue'));
+Vue.component('TownsIndex', require('./components/TownsIndex.vue'));
+Vue.component('TownsAdd', require('./components/TownsAdd.vue'));
 
 const app = new Vue({
   el: '#vueapp',
@@ -56,7 +58,9 @@ const app = new Vue({
     return{
       modes:[
         'indexusers',
-        'editusers'
+        'editusers',
+        'addtown',
+        'indextowns'
       ],
       current: 'index',
       id: null 

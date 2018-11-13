@@ -3,19 +3,22 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Providers\TownWeatherProvider;
+use TownWeather;
 
 class Town extends Model
 {
+    public $incrementing = false;
+    protected $primaryKey = 'town_id';
+    
     protected $fillable = [
-        'town_id', 'name', 'current_temp'
+        'town_id', 'name'
     ];
 
     public static function add($fields)
     {
         $town = new static;
         $town->fill($fields);
-        $request_current_temp = TownWeatherProvider::getWeather($fields["town_id"]);
+        $request_current_temp = TownWeather::getWeather($fields["town_id"]);
         $town->current_temp = $request_current_temp["temp"];
         $town->save();
         return $town;

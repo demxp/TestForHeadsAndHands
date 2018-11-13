@@ -99,6 +99,239 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TownsAdd.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      towns: [],
+      town: {
+        town_id: null,
+        name: null
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.ajaxfun('/data/townlist.json', 'get', null, this.fillTowns);
+  },
+
+  methods: {
+    ajaxfun: function ajaxfun(url, method) {
+      var body = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var callback = arguments[3];
+
+      fetch(url, {
+        method: method,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+        },
+        body: body !== null ? JSON.stringify(body) : null
+      }).then(function (response) {
+        return response.json();
+      }).then(function (req) {
+        return callback(req);
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    fillTowns: function fillTowns(data) {
+      var _this = this;
+
+      this.towns.push({
+        titleimage: 0,
+        text: "Выберите город",
+        id: 0
+      });
+      data.map(function (item, i) {
+        _this.towns.push({
+          text: item.name,
+          id: item.town_id
+        });
+      });
+    },
+    addtown: function addtown() {
+      var _this2 = this;
+
+      if (this.town.town_id === null) {
+        alert("Надо выбрать город!");
+        return false;
+      }
+      var url = '/api/v1/towns';
+      this.ajaxfun(url, 'post', {
+        town_id: this.town.town_id,
+        name: this.selectedTownName
+      }, function (req) {
+        if (req.status == 'ok') {
+          _this2.$parent.$emit('switch-mode', { 'mode': 'indextowns', 'id': null });
+          return true;
+        }
+        customAlert("Упс... Какая-то ошибка...");
+      });
+    }
+  },
+  computed: {
+    selectedTownName: function selectedTownName() {
+      var _this3 = this;
+
+      var cur_town = this.towns.filter(function (el) {
+        return _this3.town.town_id == el.id;
+      });
+      return cur_town[0].text;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TownsIndex.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      towns: []
+    };
+  },
+  mounted: function mounted() {
+    this.ajaxfun('/api/v1/towns', 'get', null, this.fillTable);
+  },
+
+  methods: {
+    ajaxfun: function ajaxfun(url, method) {
+      var body = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var callback = arguments[3];
+
+      fetch(url, {
+        method: method,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+        },
+        body: body !== null ? JSON.stringify(body) : null
+      }).then(function (response) {
+        return response.json();
+      }).then(function (req) {
+        return callback(req);
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    fillTable: function fillTable(data) {
+      var _this = this;
+
+      data.map(function (item, i) {
+        item.success = false;
+        item.danger = false;
+        if (!!_this.towns[i]) {
+          Object.keys(item).map(function (param) {
+            return _this.towns[i][param] = item[param];
+          });
+        } else {
+          _this.towns.push(item);
+        }
+      });
+      if (data.length < this.towns.length) {
+        this.towns.splice(data.length, this.towns.length - data.length);
+      }
+    },
+    deleteTown: function deleteTown(town) {
+      var _this2 = this;
+
+      if (!confirm("Вы уверены?")) {
+        return false;
+      }
+      var url = '/api/v1/towns/' + town.town_id;
+      this.ajaxfun(url, 'delete', {
+        id: town.town_id
+      }, function () {
+        _this2.ajaxfun('/api/v1/towns', 'get', null, _this2.fillTable);
+      });
+    },
+    createCallback: function createCallback(obj) {
+      return function (req) {
+        if (req.status == 'ok') {
+          obj.success = true;
+          setTimeout(function () {
+            obj.success = false;
+          }, 1000);
+        } else {
+          obj.danger = true;
+          setTimeout(function () {
+            obj.danger = false;
+          }, 1000);
+        }
+      };
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/UsersEdit.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -926,6 +1159,195 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-01a231f7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TownsAdd.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "box" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "box-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("label", [_vm._v("Выберите город")]),
+              _vm._v(" "),
+              _c("select2", {
+                staticStyle: { width: "100%" },
+                attrs: { options: _vm.towns },
+                model: {
+                  value: _vm.town.town_id,
+                  callback: function($$v) {
+                    _vm.$set(_vm.town, "town_id", $$v)
+                  },
+                  expression: "town.town_id"
+                }
+              })
+            ],
+            1
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "box-footer" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-default",
+          on: {
+            click: function($event) {
+              _vm.$parent.$emit("switch-mode", { mode: "indextowns", id: null })
+            }
+          }
+        },
+        [_vm._v("Назад")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success pull-right",
+          on: { click: _vm.addtown }
+        },
+        [_vm._v("Добавить")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [_vm._v("Добавляем город")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01a231f7", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30a38a28\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TownsIndex.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "box" }, [
+    _c("div", { staticClass: "box-body" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                _vm.$parent.$emit("switch-mode", { mode: "addtown", id: null })
+              }
+            }
+          },
+          [_vm._v("Добавить")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-bordered table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm.towns.length == 0
+          ? _c("tbody", [
+              _c("tr", [
+                _c(
+                  "td",
+                  { attrs: { colspan: "5" } },
+                  [_c("center", [_c("h3", [_vm._v("НЕТ ДАННЫХ")])])],
+                  1
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.towns, function(town) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(town.town_id))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("span", { domProps: { textContent: _vm._s(town.name) } })
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c("span", {
+                  domProps: { textContent: _vm._s(town.current_temp) }
+                })
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-danger btn-block",
+                    on: {
+                      click: function($event) {
+                        _vm.deleteTown(town)
+                      }
+                    }
+                  },
+                  [_vm._v("Удалить")]
+                )
+              ])
+            ])
+          })
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Город")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Температура")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Действия")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-30a38a28", module.exports)
+  }
+}
 
 /***/ }),
 
@@ -12215,12 +12637,14 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 Vue.component('Select2', __webpack_require__("./resources/assets/js/components/Select2.vue"));
 Vue.component('UsersIndex', __webpack_require__("./resources/assets/js/components/UsersIndex.vue"));
 Vue.component('UsersEdit', __webpack_require__("./resources/assets/js/components/UsersEdit.vue"));
+Vue.component('TownsIndex', __webpack_require__("./resources/assets/js/components/TownsIndex.vue"));
+Vue.component('TownsAdd', __webpack_require__("./resources/assets/js/components/TownsAdd.vue"));
 
 var app = new Vue({
   el: '#vueapp',
   data: function data() {
     return {
-      modes: ['indexusers', 'editusers'],
+      modes: ['indexusers', 'editusers', 'addtown', 'indextowns'],
       current: 'index',
       id: null
     };
@@ -12287,6 +12711,102 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4b953bcf", Component.options)
   } else {
     hotAPI.reload("data-v-4b953bcf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/TownsAdd.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TownsAdd.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-01a231f7\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TownsAdd.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/TownsAdd.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01a231f7", Component.options)
+  } else {
+    hotAPI.reload("data-v-01a231f7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/TownsIndex.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TownsIndex.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-30a38a28\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TownsIndex.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/TownsIndex.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-30a38a28", Component.options)
+  } else {
+    hotAPI.reload("data-v-30a38a28", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
