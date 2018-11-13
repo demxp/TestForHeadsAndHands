@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Validator;
+use Auth;
+use App\Api_Token;
 
 class UsersController extends Controller
 {
@@ -103,6 +105,24 @@ class UsersController extends Controller
         User::find($id)->remove();
         return [
             "status" => "ok"
+        ];
+    }
+
+    /* Авторизация и генерация токена */
+    public function AuthUser(Request $request)
+    {
+        if(Auth::attempt([
+            'login' => $request->get('login'),
+            'password' => $request->get('password')
+        ]))
+        {
+            $token = Api_Token::RegenerateToken();
+            return [
+                "token" => $token
+            ];
+        }
+        return [
+            "error_auth",
         ];
     }
 }

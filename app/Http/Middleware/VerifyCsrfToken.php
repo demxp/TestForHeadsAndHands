@@ -14,11 +14,12 @@ class VerifyCsrfToken extends Middleware
     protected $addHttpCookie = true;
 
     /**
-     * The URIs that should be excluded from CSRF verification.
+     * Отключение CSRF защиты на точках входа API.
      *
      * @var array
      */
     protected $except = [
-        //
+        'auth',
+        'weather'
     ];
 }

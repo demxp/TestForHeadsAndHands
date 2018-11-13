@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Town;
 use Illuminate\Validation\Rule;
 use Validator;
+use App\Api_Token;
 
 class TownsController extends Controller
 {
@@ -61,5 +62,26 @@ class TownsController extends Controller
         return [
             "status" => "ok"
         ];
+    }
+
+    public function GetAllWeather(Request $request)
+    {
+        $token = $request->headers->get('token');
+        if((is_null($token)) || (!Api_Token::CheckToken($token))){
+            return [
+                "status" => "error_token"
+            ];            
+        }
+
+        $acc = [];
+
+        foreach(Town::all() as $town){
+            $acc[] = [
+                "town" => $town['name'], 
+                "current_temp" => $town['current_temp']
+            ];
+        }
+
+        return $acc;
     }
 }

@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/auth', 'ApiV1\UsersController@AuthUser');
+Route::get('/weather', 'ApiV1\TownsController@GetAllWeather');
+
 Route::group(['prefix' => 'api/v1', 'namespace' => 'ApiV1'], function(){
 	Route::resource('/users', 'UsersController');
 	Route::resource('/towns', 'TownsController');	
