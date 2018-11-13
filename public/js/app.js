@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this2.$parent.$emit('switch-mode', { 'mode': 'indextowns', 'id': null });
           return true;
         }
-        customAlert("Упс... Какая-то ошибка...");
+        customAlert(req);
       });
     }
   },
@@ -215,6 +215,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -1255,18 +1256,31 @@ var render = function() {
   return _c("div", { staticClass: "box" }, [
     _c("div", { staticClass: "box-body" }, [
       _c("div", { staticClass: "form-group" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-success",
-            on: {
-              click: function($event) {
-                _vm.$parent.$emit("switch-mode", { mode: "addtown", id: null })
-              }
-            }
-          },
-          [_vm._v("Добавить")]
-        )
+        _vm.towns.length < 20
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-success",
+                on: {
+                  click: function($event) {
+                    _vm.$parent.$emit("switch-mode", {
+                      mode: "addtown",
+                      id: null
+                    })
+                  }
+                }
+              },
+              [_vm._v("Добавить")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.towns.length >= 20
+          ? _c("p", [
+              _vm._v(
+                "Задано максимальное число городов (ограничение 20 городов)"
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered table-striped" }, [

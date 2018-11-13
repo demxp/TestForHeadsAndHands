@@ -78,7 +78,7 @@
               this.$parent.$emit('switch-mode', {'mode': 'indextowns', 'id': null});
               return true;
             }
-            customAlert("Упс... Какая-то ошибка...");
+            customAlert(req);
           });       
         }
       },

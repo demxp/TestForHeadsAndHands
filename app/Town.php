@@ -28,4 +28,11 @@ class Town extends Model
     {
         $this->delete();
     }       
+
+    public function renewTemp()
+    {
+        $request_current_temp = TownWeather::getWeather($this->town_id);
+        $this->current_temp = $request_current_temp["temp"];
+        $this->save();
+    }
 }

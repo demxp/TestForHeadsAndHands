@@ -2,7 +2,8 @@
   <div class="box">
     <div class="box-body">
       <div class="form-group">
-        <a class="btn btn-success" @click="$parent.$emit('switch-mode', {'mode': 'addtown', 'id': null})">Добавить</a>
+        <a v-if="towns.length < 20" class="btn btn-success" @click="$parent.$emit('switch-mode', {'mode': 'addtown', 'id': null})">Добавить</a>
+        <p v-if="towns.length >= 20">Задано максимальное число городов (ограничение 20 городов)</p>
       </div>      
       <table class="table table-bordered table-striped">
         <thead>
